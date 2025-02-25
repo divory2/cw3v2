@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:cw3v2/TaskList.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -55,6 +55,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  List <String> taskList = [];
+  String input = '';
+  @override
+  void initState() {
+    // TODO: implement ==
+    super.initState();
+
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -64,8 +72,19 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      
     });
   }
+  void _sendToTaskList(){
+    Navigator.push(
+                      context,
+                    MaterialPageRoute(builder: (context)=> TaskListscreen(taskList: taskList),
+                      
+                    
+                    )
+                    );
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -104,11 +123,66 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
             const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Container(
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(8),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Enter task',
+                      hintText: 'add task here',
+                      border: OutlineInputBorder(),
+
+
+                    ),
+                    onChanged: (value){
+                      setState(() {
+                        input = value;
+                      });
+                    },
+                    // onSubmitted: (value){
+                    //   setState(() {
+                    //     taskList.add(value);
+                    //   });
+                    // },
+                  ),
+                  SizedBox(height: 20,),
+                  ElevatedButton(
+                    onPressed: (){
+                      setState(() {
+                        taskList.add(input);
+                        input = '';
+                      });
+                    }
+                    , 
+                  child: const Text('Add Task to List')),
+                  SizedBox(height: 20,),
+                  ElevatedButton(
+                    onPressed: _sendToTaskList, 
+                  child: const Text('View Your TaskList'))
+                  
+
+                ],
+
+              ),
+
+
+              ),
+
+            
+
           ],
         ),
       ),
